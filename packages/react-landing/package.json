@@ -9,9 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/styles": "^4.11.4",
+    "@react-page/editor": "^3.1.1",
+    "@react-page/plugins-image": "^3.1.1",
+    "@react-page/plugins-slate": "^3.1.1",
+    "lodash": "^4.17.21",
     "next": "11.0.0",
     "pouchdb": "^7.2.2",
     "pouchdb-find": "^7.2.2",
+    "pouchdb-upsert": "^2.2.0",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
