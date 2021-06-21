@@ -40,12 +40,21 @@ const cellPlugins = [slate(), image];
 export default function Home() {
   const [value, setValue] = useState(null);
   const [id, setId] = useState(null);
+  const page = "/index333";
   useEffect(() => {
     db.findOne({
-      page: "/index"
+      page
     }).then((doc) => {
-      setId(doc._id);
-      setValue(doc.value)
+      if (doc){
+        setId(doc._id);
+        setValue(doc.value)
+      }else{
+        db.post({
+          page
+        }).then(status => {
+          setId(status.id);
+        })
+      }
     });
   }, []);
   return (
@@ -58,17 +67,17 @@ export default function Home() {
       <Editor
         cellPlugins={cellPlugins}
         value={value}
-        onChange={
+        onChange={(v)=>{
+          setValue(v);
           _.debounce((v)=>{
-            console.log(id, value)
-            setValue(v);
             if (id && value){
               db.upsert(id, function(doc){
-                doc.value = value;
+                doc.value = v;
                 return doc
               })
             }
-          }, 1500)
+          }, 1500)(v)
+        }
         }
       />
       <footer className={styles.footer}>
