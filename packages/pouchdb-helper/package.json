@@ -1,0 +1,21 @@
+{
+  "name": "@edgefront/pouchdb-helper",
+  "version": "0.0.1",
+  "description": "> TODO: description",
+  "author": "lgh06 <hnnk@qq.com>",
+  "homepage": "https://github.com/lgh06/react-landing#readme",
+  "license": "ISC",
+  "main": "pouchdb-helper.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lgh06/react-landing.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/lgh06/react-landing/issues"
+  },
+  "dependencies": {
+  }
+}

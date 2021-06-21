@@ -5,9 +5,11 @@ import styles from "../styles/Home.module.css";
 import PouchDB from "pouchdb";
 import PouchDBFind from "pouchdb-find";
 import PouchDBUpsert from "pouchdb-upsert";
+import PouchDBHelper from "@edgefront/pouchdb-helper";
 import { default as _ } from "lodash"
 PouchDB.plugin(PouchDBFind);
 PouchDB.plugin(PouchDBUpsert);
+PouchDB.plugin(PouchDBHelper);
 var db = new PouchDB("http://admin:admin@localhost:5984/testdb");
 
 import React, { useState, useEffect } from "react";
@@ -39,13 +41,11 @@ export default function Home() {
   const [value, setValue] = useState(null);
   const [id, setId] = useState(null);
   useEffect(() => {
-    db.find({
-      selector: {
-        page: "/index",
-      },
-    }).then((res) => {
-      setId(res.docs[0]._id);
-      setValue(res.docs[0].value)
+    db.findOne({
+      page: "/index"
+    }).then((doc) => {
+      setId(doc._id);
+      setValue(doc.value)
     });
   }, []);
   return (
