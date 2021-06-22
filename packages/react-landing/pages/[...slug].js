@@ -1,5 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useRouter } from 'next/router'
+
 import styles from "../styles/Home.module.css";
 
 import PouchDB from "pouchdb";
@@ -40,15 +42,20 @@ const cellPlugins = [slate(), image];
 export default function Home() {
   const [value, setValue] = useState(null);
   const [id, setId] = useState(null);
-  const page = "/index333";
+  const [page, setPage] = useState(null);
+  const router = useRouter()
   useEffect(() => {
+    const {query: {slug}} = router;
+    if (slug && slug.length){
+      setPage("/" + slug[0]);
+    }
     db.findOne({
       page
     }).then((doc) => {
       if (doc){
         setId(doc._id);
         setValue(doc.value)
-      }else{
+      }else if(!doc && page){
         db.post({
           page
         }).then(status => {
@@ -56,7 +63,7 @@ export default function Home() {
         })
       }
     });
-  }, []);
+  }, [page,router]);
   return (
     <div className={styles.container}>
       <Head>
@@ -70,7 +77,7 @@ export default function Home() {
         onChange={(v)=>{
           setValue(v);
           _.debounce((v)=>{
-            if (id && value){
+            if (page && id && value){
               db.upsert(id, function(doc){
                 doc.value = v;
                 return doc

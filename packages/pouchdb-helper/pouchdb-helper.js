@@ -12,8 +12,17 @@ exports.findOne = function (idOrSelector, opts = {}, callback) {
   // var pouch = this;
   // var PouchDB = pouch.constructor;
   var selector;
-
+  if (idOrSelector == {} || idOrSelector === '') {
+    return Promise.resolve(null)
+  }
   if(typeof idOrSelector === 'object'){
+    let undefinedProp = false;
+    Object.keys(idOrSelector).forEach((v, i) => {
+      if (!idOrSelector[v] && i === 0){
+        undefinedProp = true
+      }
+    })
+    if (undefinedProp) return Promise.resolve(null);
     selector = idOrSelector;
   }else if ((typeof idOrSelector === 'string')){
     selector = {
